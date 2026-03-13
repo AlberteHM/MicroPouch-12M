@@ -1,8 +1,12 @@
 .snakemake
 analysis/*
 !analysis/.gitkeep
+!analysis/plot_clinical_results.R
+!analysis/plot_microbiome_results.R
 data/*
 !data/.gitkeep
+!data/metadata.csv
+!data/MetaPhlAn_4.1.0.txt
 plots/*
 !plots/.gitkeep
 fecal_samples_12md.csv*
