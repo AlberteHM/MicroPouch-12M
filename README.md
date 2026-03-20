@@ -1,10 +1,12 @@
 # MicroPouch - 1-year follow-up
 ## Abstract
-Chronic pouchitis is a frequent complication after ileal pouch–anal anastomosis surgery, and microbial dysbiosis is believed to play a central role in the pathogenesis of pouchitis. Fecal microbiota transplantation (FMT) has shown varying results in patients suffering from pouchitis, but long-term effects remain unclear. This study is a follow-up of the Micropouch trial, evaluating the clinical and microbial impact of FMT in patients with chronic pouchitis during a one-year period.
+Chronic pouchitis is a frequent complication following ileal pouch-anal anastomosis surgery, with microbial dysbiosis considered a key contributor to its pathogenesis. Fecal Microbiota Transplantation (FMT) has shown inconsistent therapeutic effects, and its long-term efficacy remains unclear. 
 
-Thirty patients with a pouch were included in the original study and randomized 1:1 to receive FMT or placebo. Patients treated with FMT exhibited reduced stool frequency for up to 1 month, while the placebo group showed reduced stool frequency at the 3-month follow-up. Both groups demonstrated significant early improvements in cPDAI scores. The FMT group had significantly lower scores  up to the 6 month follow-up. In the placebo group, improvements persisted up to the 3 month follow-up. Microbiome analyses revealed no long-term shifts toward the donor profile following FMT. No significant microbial changes were observed in the placebo group.
+In this follow-up study of the MicroPouch trial, we assessed 1-year microbial changes and clinical outcomes of FMT in patients with chronic pouchitis. Thirty patients were randomized 1:1 to receive FMT or placebo. Results showed, FMT was associated with reduced stool frequency at 1 month, whereas the placebo group showed improvement at 3 months. Both groups demonstrated early reductions in clinical Pouch Disease Activity Index (PDAI) scores; these improvements persisted up to 6 months in the FMT group and 3 months in the placebo group.
 
-Overall, FMT did not result in sustained clinical improvement, and the microbial composition did not differ from baseline after 1 year, in patients with chronic pouchitis.
+However, no significant differences between groups were observed at the 1-year follow-up. Microbiome analyses revealed no sustained shift toward fecal donor composition after FMT, and microbial profiles at 1 year were comparable to baseline in both groups.
+
+Overall, FMT did not provide sustained clinical or microbial benefit in patients with chronic pouchitis one year after treatment.
 
 ## Analysis
 This repository contains the code used for clinical data plot generation and the microbiome analysis.
