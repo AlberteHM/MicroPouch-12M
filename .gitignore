@@ -7,6 +7,8 @@ data/*
 !data/.gitkeep
 !data/metadata.csv
 !data/MetaPhlAn_4.1.0.txt
+!data/within_group_stoolfre_stats.tsv
+!data/within_group_cpdai_stats.tsv
 plots/*
 !plots/.gitkeep
 fecal_samples_12md.csv*
