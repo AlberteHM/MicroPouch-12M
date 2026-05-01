@@ -41,6 +41,52 @@ make_col_map <- function(id_key, fmt_cols, plac_cols,
 id_key <- metadata %>% distinct(id, group)
 col_map <- make_col_map(id_key, fmt_cols, plac_cols)
 
+stool_fre_stats <- read_delim("data/within_group_stoolfre_stats.tsv")
+
+get_p_label_stool_fre <- function(xmin, xmax, group_name) {
+  stool_fre_stats %>%
+    filter(
+      group == group_name,
+      from_timepoint == xmin,
+      to_timepoint == xmax
+    ) %>%
+    pull(p_val_bf_adj) %>%
+    {
+      case_when(
+        length(.) == 0 ~ NA_character_,
+        is.na(.) ~ NA_character_,
+        . < 0.0001 ~ "p<0.0001",
+        . < 0.001  ~ "p<0.001",
+        . < 0.01   ~ "p<0.01",
+        . < 0.05   ~ "p<0.05",
+        TRUE       ~ "p>0.05"
+      )
+    }
+}
+
+add_sig_bracket_stool_fre <- function(xmin, xmax, group_name, y.position) {
+  
+  p_label <- get_p_label_stool_fre(xmin, xmax, group_name)
+  
+  if (is.na(p_label) || p_label == "p>0.05") {
+    return(NULL)
+  }
+  
+  geom_bracket(
+    data = metadata %>%
+      filter(group == group_name) %>%
+      distinct(group, .keep_all = TRUE),
+    aes(
+      xmin = xmin,
+      xmax = xmax,
+      y.position = y.position
+    ),
+    label = p_label,
+    label.size = 11 / .pt,
+    color = "grey20"
+  )
+}
+
 
 # Stool frequency plot 
 n_counts <- metadata %>%
@@ -69,15 +115,6 @@ stool_fre_plot <- ggplot(metadata, aes(x = stage, y = stool_fre, color = id)) +
         axis.title.y = element_text(size = 12),
         strip.text.x = element_text(size = 12)
   ) + 
-  geom_bracket(data = subset(metadata, group == "FMT") %>%
-                 distinct(group, .keep_all = TRUE),
-               aes(xmin = "inclusion", xmax = "followup_1m", y.position = 26.3),
-               label = "p < 0.05", label.size = 11/.pt, color = "grey20") + 
-  geom_bracket(data = subset(metadata, group == "placebo") %>%
-                 distinct(group, .keep_all = TRUE), 
-               aes(xmin = "inclusion", xmax = "followup_3m", y.position = 22),
-               label = "p < 0.05", label.size = 11/.pt, color = "grey20") + 
-  expand_limits(y=28.3) +
   geom_label(
     data = n_counts,
     aes(x = stage, y = 27.5, label = paste0("n = ", n)),
@@ -87,10 +124,77 @@ stool_fre_plot <- ggplot(metadata, aes(x = stage, y = stool_fre, color = id)) +
     label.size = 0.2,
     fill="grey97",
     alpha = 0.8
-  )
+  ) + 
+  add_sig_bracket_stool_fre("inclusion", "followup_30d", "FMT", 25) +
+  add_sig_bracket_stool_fre("inclusion", "followup_1m", "FMT", 26.3) +
+  add_sig_bracket_stool_fre("inclusion", "followup_3m", "FMT", 27) +
+  add_sig_bracket_stool_fre("inclusion", "followup_6m", "FMT", 28) +
+  add_sig_bracket_stool_fre("inclusion", "followup_12m", "FMT", 29) +
+  add_sig_bracket_stool_fre("followup_30d", "followup_1m", "FMT", 30) +
+  add_sig_bracket_stool_fre("followup_1m", "followup_3m", "FMT", 31) +
+  add_sig_bracket_stool_fre("followup_3m", "followup_6m", "FMT", 32) +
+  add_sig_bracket_stool_fre("followup_6m", "followup_12m", "FMT", 33) +
+  add_sig_bracket_stool_fre("inclusion", "followup_30d", "placebo", 25) +
+  add_sig_bracket_stool_fre("inclusion", "followup_1m", "placebo", 26) +
+  add_sig_bracket_stool_fre("inclusion", "followup_3m", "placebo", 22) +
+  add_sig_bracket_stool_fre("inclusion", "followup_6m", "placebo", 28) +
+  add_sig_bracket_stool_fre("inclusion", "followup_12m", "placebo", 29) +
+  add_sig_bracket_stool_fre("followup_30d", "followup_1m", "placebo", 30) +
+  add_sig_bracket_stool_fre("followup_1m", "followup_3m", "placebo", 31) +
+  add_sig_bracket_stool_fre("followup_3m", "followup_6m", "placebo", 32) +
+  add_sig_bracket_stool_fre("followup_6m", "followup_12m", "placebo", 33)
+
+stool_fre_plot
 
 
 # cPDAI plot 
+
+cpdai_stats <- read_delim("data/within_group_cpdai_stats.tsv")
+
+get_p_label_cpdai <- function(xmin, xmax, group_name) {
+  cpdai_stats %>%
+    filter(
+      group == group_name,
+      from_timepoint == xmin,
+      to_timepoint == xmax
+    ) %>%
+    pull(p_val_bf_adj) %>%
+    {
+      case_when(
+        length(.) == 0 ~ NA_character_,
+        is.na(.) ~ NA_character_,
+        . < 0.0001 ~ "p<0.0001",
+        . < 0.001  ~ "p<0.001",
+        . < 0.01   ~ "p<0.01",
+        . < 0.05   ~ "p<0.05",
+        TRUE       ~ "p>0.05"
+      )
+    }
+}
+
+add_sig_bracket_cpdai <- function(xmin, xmax, group_name, y.position) {
+  
+  p_label <- get_p_label_cpdai(xmin, xmax, group_name)
+  
+  if (is.na(p_label) || p_label == "p>0.05") {
+    return(NULL)
+  }
+  
+  geom_bracket(
+    data = metadata %>%
+      filter(group == group_name) %>%
+      distinct(group, .keep_all = TRUE),
+    aes(
+      xmin = xmin,
+      xmax = xmax,
+      y.position = y.position
+    ),
+    label = p_label,
+    label.size = 11 / .pt,
+    color = "grey20"
+  )
+}
+
 
 cpdai_plot <- ggplot(metadata, aes(x = stage, y = cpdai_sum, color = id)) +
   facet_grid(. ~ group, labeller = as_labeller(c("FMT" ="FMT", "placebo" = "Placebo"))) +
@@ -112,37 +216,9 @@ cpdai_plot <- ggplot(metadata, aes(x = stage, y = cpdai_sum, color = id)) +
         axis.text.y = element_text(color = "black", size = 10), 
         axis.title.y = element_text(size = 12),
         strip.text.x = element_text(size = 12)) +
-  geom_bracket(data = subset(metadata, group == "FMT") %>%
-                 distinct(group, .keep_all = TRUE), 
-               aes(xmin = "inclusion", xmax = "followup_30d", y.position = 6.5),
-               label = "p < 0.01", label.size = 11/.pt, color = "grey20") +
-  geom_bracket(data = subset(metadata, group == "FMT") %>%
-                 distinct(group, .keep_all = TRUE), 
-               aes(xmin = "inclusion", xmax = "followup_1m", y.position = 6.9),
-               label = "p < 0.001", label.size = 11/.pt, color = "grey20") +
-  geom_bracket(data = subset(metadata, group == "FMT") %>%
-                 distinct(group, .keep_all = TRUE), 
-               aes(xmin = "inclusion", xmax = "followup_3m", y.position = 7.3),
-               label = "p < 0.05", label.size = 11/.pt, color = "grey20") +
-  geom_bracket(data = subset(metadata, group == "FMT") %>%
-                 distinct(group, .keep_all = TRUE),
-               aes(xmin = "inclusion", xmax = "followup_6m", y.position = 7.7),
-               label = "p < 0.05", label.size = 11/.pt, color = "grey20") +
-  geom_bracket(data = subset(metadata, group == "placebo") %>%
-                 distinct(group, .keep_all = TRUE),
-               aes(xmin = "inclusion", xmax = "followup_30d", y.position = 5.5),
-               label = "p < 0.001", label.size = 11/.pt, color = "grey20") +
-  geom_bracket(data = subset(metadata, group == "placebo") %>%
-                 distinct(group, .keep_all = TRUE), 
-               aes(xmin = "inclusion", xmax = "followup_1m", y.position = 5.9),
-               label = "p < 0.05", label.size = 11/.pt, color = "grey20") + 
-  geom_bracket(data = subset(metadata, group == "placebo") %>%
-                 distinct(group, .keep_all = TRUE), 
-               aes(xmin = "inclusion", xmax = "followup_3m", y.position = 6.3),
-               label = "p < 0.001", label.size = 11/.pt, color = "grey20") + 
   scale_y_continuous(
     limits = c(0, 8.3),
-    breaks = c(0, 2, 4, 6)) + 
+    breaks = c(0, 2, 4, 6)) +
   geom_label(
     data = n_counts,
     aes(x = stage, y = 8.0, label = paste0("n = ", n)),
@@ -152,4 +228,23 @@ cpdai_plot <- ggplot(metadata, aes(x = stage, y = cpdai_sum, color = id)) +
     label.size = 0.2,
     fill="grey97",
     alpha = 0.8
-  )
+  ) +
+  add_sig_bracket_cpdai("inclusion", "followup_30d", "FMT", 6.5) +
+  add_sig_bracket_cpdai("inclusion", "followup_1m", "FMT", 6.9) +
+  add_sig_bracket_cpdai("inclusion", "followup_3m", "FMT", 7.3) +
+  add_sig_bracket_cpdai("inclusion", "followup_6m", "FMT", 7.7) +
+  add_sig_bracket_cpdai("inclusion", "followup_12m", "FMT", 11) +
+  add_sig_bracket_cpdai("followup_30d", "followup_1m", "FMT", 12) +
+  add_sig_bracket_cpdai("followup_1m", "followup_3m", "FMT", 13) +
+  add_sig_bracket_cpdai("followup_3m", "followup_6m", "FMT", 14) +
+  add_sig_bracket_cpdai("followup_6m", "followup_12m", "FMT", 15) +
+  add_sig_bracket_cpdai("inclusion", "followup_30d", "placebo", 5.5) +
+  add_sig_bracket_cpdai("inclusion", "followup_1m", "placebo", 5.9) +
+  add_sig_bracket_cpdai("inclusion", "followup_3m", "placebo", 6.3) +
+  add_sig_bracket_cpdai("inclusion", "followup_6m", "placebo", 10) +
+  add_sig_bracket_cpdai("inclusion", "followup_12m", "placebo", 11) +
+  add_sig_bracket_cpdai("followup_30d", "followup_1m", "placebo", 12) +
+  add_sig_bracket_cpdai("followup_1m", "followup_3m", "placebo", 13) +
+  add_sig_bracket_cpdai("followup_3m", "followup_6m", "placebo", 14) +
+  add_sig_bracket_cpdai("followup_6m", "followup_12m", "placebo", 15)
+  
