@@ -1,7 +1,7 @@
 library(ampvis2)
 library(tidyverse)
 library(vegan)
-
+library(patchwork)
 # Load data 
 metadata <- read_delim("data/metadata.csv") 
 metaphlan <- read_delim("data/MetaPhlAn_4.1.0.txt")
@@ -257,6 +257,11 @@ shannon_plot <- ggplot(shannon_df_pt, aes(x = stage, y = Shannon,  color = id)) 
     alpha = 0.8
   )
 
+
+alpha_div <- richness_plot / shannon_plot +
+  plot_layout(heights = c(1, 1))
+
+
 # PCA
 do_metadata <- metadata %>%
   filter(grepl("do", id)) %>%
@@ -337,6 +342,7 @@ pca_plot <- amp_object_pca %>%
         legend.text  = element_text(size = 11)) + 
   facet_wrap(. ~ group_ordination_2)
 
+pca_plot
 
 # Sørensen similarity 
 do_sim_metadata <- metadata %>%
@@ -582,3 +588,9 @@ bc_plot <- ggplot(bc_df_combined, aes(x = stage, y = median_bc_similarity, color
     fill="grey97",
     alpha = 0.8
   )
+
+
+similarity <- sorensen_plot / bc_plot +
+  plot_layout(heights = c(1, 1))
+
+
