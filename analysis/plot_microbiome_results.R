@@ -150,7 +150,8 @@ richness_plot <- ggplot(richness_df, aes(x = stage, y = richness, color = id)) +
   scale_color_manual(name = NULL, values = col_map) + 
   labs(x = "", y = "Richness") + 
   scale_y_continuous(limits = c(0, NA)) + 
-  theme(panel.background = element_rect(fill="grey97"),
+  theme(text = element_text(family = "Helvetica"),
+        panel.background = element_rect(fill="grey97"),
         panel.grid.major = element_line(color = "grey85"), 
         panel.grid.minor = element_line(color = "grey85", linetype = "dotted"), 
         axis.ticks.x = element_line(color = "black"), 
@@ -231,7 +232,8 @@ shannon_plot <- ggplot(shannon_df_pt, aes(x = stage, y = Shannon,  color = id)) 
   scale_color_manual(name = NULL, values = col_map) + 
   labs(x = "", y = "Shannon diversity") + 
   scale_y_continuous(limits = c(0, NA)) + 
-  theme(panel.background = element_rect(fill="grey97"),
+  theme(text = element_text(family = "Helvetica"),
+        panel.background = element_rect(fill="grey97"),
         panel.grid.major = element_line(color = "grey85"), 
         panel.grid.minor = element_line(color = "grey85", linetype = "dotted"), 
         axis.ticks.x = element_line(color = "black"), 
@@ -260,6 +262,9 @@ shannon_plot <- ggplot(shannon_df_pt, aes(x = stage, y = Shannon,  color = id)) 
 
 alpha_div <- richness_plot / shannon_plot +
   plot_layout(heights = c(1, 1))
+
+
+#ggsave("/home/projects/cu_00014/people/albmol/micropouch_12md/plots/figure_4.tiff", plot=alpha_div, dpi = 600, width=12, height=10)
 
 
 # PCA
@@ -343,6 +348,8 @@ pca_plot <- amp_object_pca %>%
   facet_wrap(. ~ group_ordination_2)
 
 pca_plot
+
+#ggsave("/home/projects/cu_00014/people/albmol/micropouch_12md/plots/figure_5.svg", plot=pca_plot, dpi = 600)
 
 # Sørensen similarity 
 do_sim_metadata <- metadata %>%
@@ -455,7 +462,8 @@ sorensen_plot <- ggplot(sorensen_df_combined, aes(x = stage, y = median_sorensen
   scale_x_discrete(labels = c("Baseline", "0M", "1M", "3M", "6M", "12M")) +
   scale_color_manual(name = NULL, values = col_map) + 
   labs(x = "", y = "Sørensen similarity (median)") + 
-  theme(panel.background = element_rect(fill="grey97"),
+  theme(text = element_text(family = "Helvetica"),
+        panel.background = element_rect(fill="grey97"),
         panel.grid.major = element_line(color = "grey85"), 
         panel.grid.minor = element_line(color = "grey85", linetype = "dotted"), 
         axis.ticks.x = element_line(color = "black"), 
@@ -561,7 +569,8 @@ bc_plot <- ggplot(bc_df_combined, aes(x = stage, y = median_bc_similarity, color
   scale_x_discrete(labels = c("Baseline", "0M", "1M", "3M", "6M", "12M")) +
   scale_color_manual(name = NULL, values = col_map) + 
   labs(x = "", y = "Bray-Curtis similarity (median)") + 
-  theme(panel.background = element_rect(fill="grey97"),
+  theme(text = element_text(family = "Helvetica"),
+        panel.background = element_rect(fill="grey97"),
         panel.grid.major = element_line(color = "grey85"), 
         panel.grid.minor = element_line(color = "grey85", linetype = "dotted"), 
         axis.ticks.x = element_line(color = "black"), 
@@ -593,4 +602,4 @@ bc_plot <- ggplot(bc_df_combined, aes(x = stage, y = median_bc_similarity, color
 similarity <- sorensen_plot / bc_plot +
   plot_layout(heights = c(1, 1))
 
-
+#ggsave("/home/projects/cu_00014/people/albmol/micropouch_12md/plots/figure_6.tiff", plot=similarity, dpi = 600, width=12, height=10)

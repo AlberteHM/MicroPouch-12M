@@ -83,6 +83,7 @@ add_sig_bracket_stool_fre <- function(xmin, xmax, group_name, y.position) {
     ),
     label = p_label,
     label.size = 11 / .pt,
+    family = "Helvetica",
     color = "grey20"
   )
 }
@@ -101,7 +102,8 @@ stool_fre_plot <- ggplot(metadata, aes(x = stage, y = stool_fre, color = id)) +
   scale_color_manual(name = NULL, values = col_map) + 
   labs(x = "", y = "Stool frequency [stools/day]") + 
   scale_y_continuous(limits = c(0, NA)) + 
-  theme(panel.background = element_rect(fill="grey97"),
+  theme(text = element_text(family = "Helvetica"), 
+        panel.background = element_rect(fill="grey97"),
         panel.grid.major = element_line(color = "grey85"), 
         panel.grid.minor = element_line(color = "grey85", linetype = "dotted"), 
         axis.ticks.x = element_line(color = "black"), 
@@ -145,6 +147,8 @@ stool_fre_plot <- ggplot(metadata, aes(x = stage, y = stool_fre, color = id)) +
   add_sig_bracket_stool_fre("followup_6m", "followup_12m", "placebo", 33)
 
 stool_fre_plot
+
+#ggsave("/home/projects/cu_00014/people/albmol/micropouch_12md/plots/figure_2.tiff", plot=stool_fre_plot, dpi = 600)
 
 
 # cPDAI plot 
@@ -191,6 +195,7 @@ add_sig_bracket_cpdai <- function(xmin, xmax, group_name, y.position) {
     ),
     label = p_label,
     label.size = 11 / .pt,
+    family = "Helvetica",
     color = "grey20"
   )
 }
@@ -203,7 +208,8 @@ cpdai_plot <- ggplot(metadata, aes(x = stage, y = cpdai_sum, color = id)) +
   scale_x_discrete(labels = c("Baseline", "0M", "1M", "3M", "6M", "12M")) + 
   scale_color_manual(name = NULL, values = col_map) + 
   labs(x = "", y = "Clinical PDAI") + 
-  theme(panel.background = element_rect(fill="grey97"),
+  theme(text = element_text(family = "Helvetica"),
+        panel.background = element_rect(fill="grey97"),
         panel.grid.major = element_line(color = "grey85"), 
         panel.grid.minor = element_line(color = "grey85", linetype = "dotted"), 
         axis.ticks.x = element_line(color = "black"), 
@@ -248,3 +254,4 @@ cpdai_plot <- ggplot(metadata, aes(x = stage, y = cpdai_sum, color = id)) +
   add_sig_bracket_cpdai("followup_3m", "followup_6m", "placebo", 14) +
   add_sig_bracket_cpdai("followup_6m", "followup_12m", "placebo", 15)
   
+#ggsave("/home/projects/cu_00014/people/albmol/micropouch_12md/plots/figure_3.tiff", plot=cpdai_plot, dpi = 600)
