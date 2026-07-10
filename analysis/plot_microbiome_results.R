@@ -264,7 +264,7 @@ alpha_div <- richness_plot / shannon_plot +
   plot_layout(heights = c(1, 1))
 
 
-#ggsave("/home/projects/cu_00014/people/albmol/micropouch_12md/plots/figure_4.tiff", plot=alpha_div, dpi = 600, width=12, height=10)
+#ggsave("./plots/figure_4.tiff", plot=alpha_div, dpi = 600, width=12, height=10)
 
 
 # PCA
@@ -349,7 +349,7 @@ pca_plot <- amp_object_pca %>%
 
 pca_plot
 
-#ggsave("/home/projects/cu_00014/people/albmol/micropouch_12md/plots/figure_5.svg", plot=pca_plot, dpi = 600)
+#ggsave("./plots/figure_5.svg", plot=pca_plot, dpi = 600)
 
 # Sørensen similarity 
 do_sim_metadata <- metadata %>%
@@ -602,4 +602,4 @@ bc_plot <- ggplot(bc_df_combined, aes(x = stage, y = median_bc_similarity, color
 similarity <- sorensen_plot / bc_plot +
   plot_layout(heights = c(1, 1))
 
-#ggsave("/home/projects/cu_00014/people/albmol/micropouch_12md/plots/figure_6.tiff", plot=similarity, dpi = 600, width=12, height=10)
+#ggsave("./plots/figure_6.tiff", plot=similarity, dpi = 600, width=12, height=10)
