@@ -148,7 +148,7 @@ stool_fre_plot <- ggplot(metadata, aes(x = stage, y = stool_fre, color = id)) +
 
 stool_fre_plot
 
-#ggsave("/home/projects/cu_00014/people/albmol/micropouch_12md/plots/figure_2.tiff", plot=stool_fre_plot, dpi = 600)
+#ggsave("./plots/figure_2.tiff", plot=stool_fre_plot, dpi = 600)
 
 
 # cPDAI plot 
@@ -254,4 +254,4 @@ cpdai_plot <- ggplot(metadata, aes(x = stage, y = cpdai_sum, color = id)) +
   add_sig_bracket_cpdai("followup_3m", "followup_6m", "placebo", 14) +
   add_sig_bracket_cpdai("followup_6m", "followup_12m", "placebo", 15)
   
-#ggsave("/home/projects/cu_00014/people/albmol/micropouch_12md/plots/figure_3.tiff", plot=cpdai_plot, dpi = 600)
+#ggsave("./plots/figure_3.tiff", plot=cpdai_plot, dpi = 600)
